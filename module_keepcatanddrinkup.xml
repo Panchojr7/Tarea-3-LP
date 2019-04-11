@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_keepcatanddrinkup" default="compile.module.keepcatanddrinkup">
+  <dirname property="module.keepcatanddrinkup.basedir" file="${ant.file.module_keepcatanddrinkup}"/>
+  
+  <property name="module.jdk.home.keepcatanddrinkup" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.keepcatanddrinkup" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.keepcatanddrinkup" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.keepcatanddrinkup" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="keepcatanddrinkup.output.dir" value="${module.keepcatanddrinkup.basedir}/out/production/KeepCatAndDrinkUp"/>
+  <property name="keepcatanddrinkup.testoutput.dir" value="${module.keepcatanddrinkup.basedir}/out/test/KeepCatAndDrinkUp"/>
+  
+  <path id="keepcatanddrinkup.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="keepcatanddrinkup.module.production.classpath">
+    <path refid="${module.jdk.classpath.keepcatanddrinkup}"/>
+  </path>
+  
+  <path id="keepcatanddrinkup.runtime.production.module.classpath">
+    <pathelement location="${keepcatanddrinkup.output.dir}"/>
+  </path>
+  
+  <path id="keepcatanddrinkup.module.classpath">
+    <path refid="${module.jdk.classpath.keepcatanddrinkup}"/>
+    <pathelement location="${keepcatanddrinkup.output.dir}"/>
+  </path>
+  
+  <path id="keepcatanddrinkup.runtime.module.classpath">
+    <pathelement location="${keepcatanddrinkup.testoutput.dir}"/>
+    <pathelement location="${keepcatanddrinkup.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.keepcatanddrinkup">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.keepcatanddrinkup">
+    <patternset refid="excluded.from.module.keepcatanddrinkup"/>
+  </patternset>
+  
+  <path id="keepcatanddrinkup.module.sourcepath">
+    <dirset dir="${module.keepcatanddrinkup.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.keepcatanddrinkup" depends="compile.module.keepcatanddrinkup.production,compile.module.keepcatanddrinkup.tests" description="Compile module KeepCatAndDrinkUp"/>
+  
+  <target name="compile.module.keepcatanddrinkup.production" depends="register.custom.compilers" description="Compile module KeepCatAndDrinkUp; production classes">
+    <mkdir dir="${keepcatanddrinkup.output.dir}"/>
+    <javac2 destdir="${keepcatanddrinkup.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.keepcatanddrinkup}/javac">
+      <compilerarg line="${compiler.args.keepcatanddrinkup}"/>
+      <bootclasspath refid="keepcatanddrinkup.module.bootclasspath"/>
+      <classpath refid="keepcatanddrinkup.module.production.classpath"/>
+      <src refid="keepcatanddrinkup.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.keepcatanddrinkup"/>
+    </javac2>
+    
+    <copy todir="${keepcatanddrinkup.output.dir}">
+      <fileset dir="${module.keepcatanddrinkup.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.keepcatanddrinkup.tests" depends="register.custom.compilers,compile.module.keepcatanddrinkup.production" description="compile module KeepCatAndDrinkUp; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.keepcatanddrinkup" description="cleanup module">
+    <delete dir="${keepcatanddrinkup.output.dir}"/>
+    <delete dir="${keepcatanddrinkup.testoutput.dir}"/>
+  </target>
+</project>
